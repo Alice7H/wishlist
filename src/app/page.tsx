@@ -26,36 +26,48 @@ export default function Home() {
     localStorage.setItem('wishes', JSON.stringify(wishes));
   },[wishes])
 
+  const handleRemoveAllWishes = () => {
+    localStorage.removeItem('wishes');
+    setWishes([]);
+  }
+
   const checkedRow = (id: string) => {
     setWishes(wishes.map(
-      task => {
-      if(task.id === id && task.status == 'none')
-        return({...task, status: 'completed' })
-      else if(task.id === id && task.status == 'completed')
-        return({...task, status: 'none' })
+      wish => {
+      if(wish.id === id && wish.status == 'none')
+        return({...wish, status: 'completed' })
+      else if(wish.id === id && wish.status == 'completed')
+        return({...wish, status: 'none' })
       else
-        return(task)
+        return(wish)
       }
     ));
   }
 
   const onRemove = (id: string) => {
     setWishes(wishes.map(
-      task => task.id === id ? ({ ...task, status: 'removed' }) : (task)
+      wish => wish.id === id ? ({ ...wish, status: 'removed' }) : (wish)
     ));
+  }
+
+  const isFormValid = () => {
+    if(wish.title.length > 0 && wish.value > 0) return true;
+    return false;
   }
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if(wish.title.length > 0 && wish.value > 0){
+    if(isFormValid()){
       wish.id.length > 0 ? onUpdate() : onCreate();
+    }else {
+      alert('Please fill the fields correctly');
     }
     resetForm(event);
   }
 
   const onEdit = (id: string) => {
-    const currentTask = wishes.find(t => t.id === id);
-    if(currentTask) setWish(currentTask);
+    const currentWish = wishes.find(t => t.id === id);
+    if(currentWish) setWish(currentWish);
   }
 
   const onCreate = () => {
@@ -68,13 +80,13 @@ export default function Home() {
   }
 
   const onUpdate = () => {
-    setWishes(wishes.map( t => t.id == wish.id
-      ? ({ ...t,
+    setWishes(wishes.map( w => w.id == wish.id
+      ? ({ ...w,
         id: wish.id,
         title: wish.title,
         value: wish.value,
         status: 'none' })
-      : (t)
+      : (w)
     ))
   }
 
@@ -103,6 +115,10 @@ export default function Home() {
         <div className='bg-gray-200 w-full sm:w-1/3 p-2 self-end'>
           <p>Total: <span>R${total.toFixed(2)}</span></p>
         </div>
+      </div>
+
+      <div className='w-full sm:w-1/3 self-end'>
+        <button type='button' className=' mt-5 bg-blue-500 hover:bg-blue-700 block w-full text-white font-bold py-2 px-4 rounded' onClick={handleRemoveAllWishes}>Delete all</button>
       </div>
     </main>
   )
