@@ -1,0 +1,13 @@
+{
+  "title": "Lista de Desejos",
+  "placeholderTitle": "Escreva um desejo aqui...",
+  "btnAdd": "Adicionar",
+  "btnUpdate": "Atualizar",
+  "titleCheck": "Riscar",
+  "titleEdit": "Editar",
+  "titleRemove": "Remover",
+  "btnDeleteAll":"Remover todos",
+  "selectLanguage": "Escolha uma linguagem",
+  "langPt": "Português",
+  "langEn": "Inglês"
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Wish list (ReactJS)",
+  "placeholderTitle": "Write some wish here...",
+  "btnAdd": "Add wish",
+  "btnUpdate": "Update wish",
+  "titleCheck": "Check",
+  "titleEdit": "Edit",
+  "titleRemove": "Remove",
+  "btnDeleteAll":"Remove all",
+  "selectLanguage": "Choose a language",
+  "langPt": "Portuguese",
+  "langEn": "English"
+}
