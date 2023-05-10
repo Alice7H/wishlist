@@ -6,8 +6,7 @@ import { LanguageContext } from './language-context';
 type DictionaryType = keyof typeof dictionaryList;
 
 export default function LanguageProvider({children}: { children: ReactNode }) {
-  const defaultLanguage = "pt";
-  const [selectedLanguage, setSelectedLanguages] = useState<DictionaryType>(defaultLanguage);
+  const [selectedLanguage, setSelectedLanguages] = useState<DictionaryType>("pt");
 
   const changeLanguage = (value: DictionaryType) => setSelectedLanguages(value);
 
