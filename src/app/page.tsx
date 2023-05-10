@@ -12,10 +12,15 @@ export interface Wish {
 }
 
 export default function Home() {
-  const localWishes = JSON.parse(localStorage.getItem('wishes') || '{}') as Wish[];
-  const [wishes, setWishes] = useState<Wish[]>(localWishes);
+
+  const [wishes, setWishes] = useState<Wish[]>([]);
   const [wish, setWish] = useState<Wish>({id: '', title: '', value: 0, status: 'none' });
   const total = wishes.reduce((acc, task) => task.status == 'none' ? acc + task.value : acc + 0, 0);
+
+  useEffect(()=> {
+    const localWishes = JSON.parse(localStorage.getItem('wishes') || '{}') as Wish[];
+    setWishes(localWishes)
+  },[])
 
   useEffect(()=> {
     localStorage.setItem('wishes', JSON.stringify(wishes));
