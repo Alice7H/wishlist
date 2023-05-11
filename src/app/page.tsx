@@ -6,6 +6,8 @@ import { WishList } from './components/wish-list';
 import { LanguageContext } from './context/language-context';
 import { WishTranslation } from './components/wish-translation';
 import { WishSort } from './components/wish-sort';
+import TranslateIcon from '../../public/translate.svg';
+import Image from 'next/image';
 
 export interface Wish {
   id: string;
@@ -19,11 +21,13 @@ export default function Home() {
 
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [wish, setWish] = useState<Wish>({id: '', title: '', value: 0, status: 'none' });
+  const [wishesIsLoading, setWishesIsLoading] = useState(true);
   const total = wishes.reduce((acc, task) => task.status == 'none' ? acc + task.value : acc + 0, 0);
 
   useEffect(()=> {
     const localWishes = JSON.parse(localStorage.getItem('wishes') || '{}') as Wish[];
-    setWishes(localWishes)
+    setWishes(localWishes);
+    setWishesIsLoading(false);
   },[])
 
   useEffect(()=> {
@@ -55,7 +59,7 @@ export default function Home() {
   }
 
   const isFormValid = () => {
-    if(wish.title.length > 0 && wish.value >= 0.01 && wish.value <= 100000) return true;
+    if(wish.title.length > 0 && wish.value >= 0 && wish.value <= 1000000) return true;
     return false;
   }
 
@@ -133,13 +137,14 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-6 md:p-24 md:pt-5 bg-[#393E46]">
-      <div className='w-full sm:w-1/3 self-end mb-10'>
+    <main className='flex min-h-screen flex-col items-center justify-between p-6 md:p-24 md:pt-5 bg-[#393E46]'>
+      <div className='w-full sm:w-1/3 self-end mb-10 flex gap-2'>
+       <Image src={TranslateIcon} alt='Translation icon' width={32} height={32} />
        <WishTranslation/>
       </div>
 
-      <div className="items-center justify-between lg:flex">
-        <h2 className="text-gray-300 text-xl mb-5 font-bold">{dictionary.title}</h2>
+      <div className='items-center justify-between lg:flex'>
+        <h1 className='text-gray-300 text-xl mb-5 font-bold'>{dictionary.title}</h1>
       </div>
 
       <div className='w-full flex flex-col'>
@@ -150,11 +155,18 @@ export default function Home() {
       </div>
 
 
-      <div className="w-full flex-col items-start justify-between flex">
-        <ul className='w-full min-h-[30vh]'>
+      <div className='w-full flex-col items-start justify-between flex'>
+        <ul className="w-full min-h-[30vh]">
+         { wishesIsLoading && <li className='bg-[#524A4E] mb-5 w-full flex justify-between items-center p-5 gap-5 md:gap-6'>
+            <p className='text-white text-bold'>{dictionary.wishesLoading}</p>
+          </li>}
          { wishes.length > 0 && [...wishes].sort().map(item => item.status != 'removed' &&
           <WishList key={item.id} wish={item} checkedRow={checkedRow} onRemove={onRemove} onEdit={onEdit}/>
         )}
+        { !wishesIsLoading && wishes.length == 0 && <li className='bg-[#524A4E] mb-5 w-full flex justify-between items-center p-5 gap-5 md:gap-6'>
+            <p className='text-white text-bold'>{dictionary.emptyWishList}</p>
+          </li>
+        }
         </ul>
         <div className='bg-gray-200 w-full sm:w-1/3 p-2 self-end'>
           <p>Total: <span>R${total.toFixed(2)}</span></p>

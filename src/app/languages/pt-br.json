@@ -14,5 +14,7 @@
   "defaultFilterTitle": "Ordenar por...",
   "filterOptionTitle": "Produto",
   "filterOptionValue": "Preço",
-  "errorFormMessage": "Por favor preencha os campos corretamente"
+  "errorFormMessage": "Por favor preencha os campos corretamente",
+  "wishesLoading": "Carregando...",
+  "emptyWishList": "Sua lista de desejos está vazia"
 }

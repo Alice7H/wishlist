@@ -14,5 +14,7 @@
   "defaultFilterTitle": "Sort by...",
   "filterOptionTitle": "Product",
   "filterOptionValue": "Price",
-  "errorFormMessage": "Please fill the fields correctly"
+  "errorFormMessage": "Please fill the fields correctly",
+  "wishesLoading": "Loading...",
+  "emptyWishList": "Your wish list is empty"
 }
