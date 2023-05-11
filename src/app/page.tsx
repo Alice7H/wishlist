@@ -55,7 +55,7 @@ export default function Home() {
   }
 
   const isFormValid = () => {
-    if(wish.title.length > 0 && wish.value >= 0.01) return true;
+    if(wish.title.length > 0 && wish.value >= 0.01 && wish.value <= 100000) return true;
     return false;
   }
 
@@ -63,10 +63,10 @@ export default function Home() {
     event.preventDefault();
     if(isFormValid()){
       wish.id.length > 0 ? onUpdate() : onCreate();
+      resetForm(event);
     }else {
       alert(dictionary.errorFormMessage);
     }
-    resetForm(event);
   }
 
   const onEdit = (id: string) => {
