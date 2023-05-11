@@ -16,6 +16,7 @@ export function WishTranslation() {
       <option value={language}>{dictionary.selectLanguage}</option>
       <option value="en">{dictionary.langEn }</option>
       <option value="pt">{dictionary.langPt }</option>
+      <option value="es">{dictionary.langEs }</option>
     </select>
   );
 }

@@ -1,0 +1,18 @@
+{
+  "title": "Lista de deseos",
+  "placeholderTitle": "Escribe aquí un deseo...",
+  "btnAdd": "Añadir",
+  "btnUpdate": "Actualizar",
+  "titleCheck": "Controlar",
+  "titleEdit": "Editar",
+  "titleRemove": "Eliminar",
+  "btnDeleteAll":"Eliminar todo",
+  "selectLanguage": "Elige un idioma",
+  "langPt": "Portugués",
+  "langEn": "Inglés",
+  "langEs": "Español",
+  "defaultFilterTitle": "Ordenar por...",
+  "filterOptionTitle": "Producto",
+  "filterOptionValue": "Precio",
+  "errorFormMessage": "Por favor complete los campos correctamente"
+}
