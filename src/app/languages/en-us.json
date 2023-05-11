@@ -12,5 +12,6 @@
   "langEn": "English",
   "defaultFilterTitle": "Sort by...",
   "filterOptionTitle": "Product",
-  "filterOptionValue": "Price"
+  "filterOptionValue": "Price",
+  "errorFormMessage": "Please fill the fields correctly"
 }
