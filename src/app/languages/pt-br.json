@@ -9,5 +9,8 @@
   "btnDeleteAll":"Remover todos",
   "selectLanguage": "Escolha uma linguagem",
   "langPt": "Português",
-  "langEn": "Inglês"
+  "langEn": "Inglês",
+  "defaultFilterTitle": "Ordenar por...",
+  "filterOptionTitle": "Produto",
+  "filterOptionValue": "Preço"
 }

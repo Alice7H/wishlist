@@ -4,6 +4,8 @@ import {FormEvent, useContext, useEffect, useState} from 'react';
 import { WishForm } from './components/wish-form';
 import { WishList } from './components/wish-list';
 import { LanguageContext } from './context/language-context';
+import { WishTranslation } from './components/wish-translation';
+import { WishSort } from './components/wish-sort';
 
 export interface Wish {
   id: string;
@@ -13,7 +15,7 @@ export interface Wish {
 }
 
 export default function Home() {
-  const {language, dictionary, changeLanguage} = useContext(LanguageContext);
+  const {dictionary} = useContext(LanguageContext);
 
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [wish, setWish] = useState<Wish>({id: '', title: '', value: 0, status: 'none' });
@@ -74,7 +76,7 @@ export default function Home() {
 
   const onCreate = () => {
     setWishes(prev => ([...prev, {
-      id: 'aX'+ prev.length.toString()+1 ,
+      id: 'aX'+ prev.length.toString(),
       title: wish.title,
       value: wish.value,
       status: 'none'
@@ -98,29 +100,55 @@ export default function Home() {
     setWish({id: '', title: '', value: 0, status: 'none' });
   }
 
-  const onChangeLanguage = (event: FormEvent<HTMLSelectElement>) => {
-    event.preventDefault();
-    const formElement = event.target as HTMLFormElement;
-    changeLanguage(formElement.value);
+
+  // sorting wishes
+  const onSortWishes = (value: string) => {
+    let sortSelected = _sortByDefault();
+    if(value === 'value'){
+      sortSelected = _sortByValue();
+    }else if(value === 'title'){
+      sortSelected = _sortByTitle();
+    }
+    setWishes(sortSelected);
+  }
+
+  const _sortByValue = () => {
+    return [...wishes].sort((a,b)=> a.value - b.value);
+  }
+
+  const _sortByTitle = () => {
+    return [...wishes].sort((a,b)=> {
+      if (a.title < b.title) {return -1;}
+      if (a.title > b.title) { return 1; }
+      return 0;
+    });
+  }
+
+  const _sortByDefault = () => {
+    return [...wishes].sort((a,b)=> {
+      if (a.id < b.id) {return -1;}
+      if (a.id > b.id) { return 1; }
+      return 0;
+    });
   }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-6 md:p-24 md:pt-5 bg-[#393E46]">
-      <div className='w-full sm:w-1/4 self-end mb-10'>
-       <select id="languages" onChange={onChangeLanguage} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <option value={language}>{dictionary.selectLanguage}</option>
-        <option value="en">{dictionary.langEn }</option>
-        <option value="pt">{dictionary.langPt }</option>
-        </select>
+      <div className='w-full sm:w-1/3 self-end mb-10'>
+       <WishTranslation/>
       </div>
 
       <div className="items-center justify-between lg:flex">
         <h2 className="text-gray-300 text-xl mb-5 font-bold">{dictionary.title}</h2>
       </div>
 
-      <div className='w-full'>
+      <div className='w-full flex flex-col'>
+        <div className='w-full sm:w-1/3 my-5 self-end'>
+          <WishSort onSortWishes={onSortWishes} />
+        </div>
         <WishForm wish={wish} setWish={setWish} onSubmit={onSubmit} />
       </div>
+
 
       <div className="w-full flex-col items-start justify-between flex">
         <ul className='w-full min-h-[30vh]'>
