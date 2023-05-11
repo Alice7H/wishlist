@@ -1,8 +1,8 @@
 # Wishlist
 
-[English](README.md)
-[Portuguese](README.pt.md)
-[Spanish](README.es.md)
+- [English](README.md)
+- [Portuguese](README.pt.md)
+- [Spanish](README.es.md)
 
 This is a [Next.js](https://nextjs.org/) project created with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
