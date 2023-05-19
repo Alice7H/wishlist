@@ -1,10 +1,10 @@
 'use client'
 import { dictionaryList, languages } from './../languages';
-import {ReactNode, useMemo, useState } from "react";
+import {ReactNode, useMemo, useState } from 'react';
 import { DictionaryType, LanguageContext } from './language-context';
 
 export default function LanguageProvider({children}: { children: ReactNode }) {
-  const [selectedLanguage, setSelectedLanguages] = useState<DictionaryType>("pt");
+  const [selectedLanguage, setSelectedLanguages] = useState<DictionaryType>('pt');
 
   const changeLanguage = (value: DictionaryType) => setSelectedLanguages(value);
 

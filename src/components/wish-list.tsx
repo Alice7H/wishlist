@@ -2,7 +2,7 @@ import Image from 'next/image';
 import checkedIcon from '../../../public/check_circle.svg';
 import editIcon from '../../../public/edit.svg';
 import deleteIcon from '../../../public/delete.svg';
-import { Wish } from '../page';
+import { Wish } from "../types/Wish";
 import { useContext } from 'react';
 import { LanguageContext } from '../context/language-context';
 

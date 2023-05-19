@@ -1,20 +1,14 @@
 'use client'
 
 import {FormEvent, useContext, useEffect, useState} from 'react';
-import { WishForm } from './components/wish-form';
-import { WishList } from './components/wish-list';
-import { LanguageContext } from './context/language-context';
-import { WishTranslation } from './components/wish-translation';
-import { WishSort } from './components/wish-sort';
+import { WishForm } from '../components/wish-form';
+import { WishList } from '../components/wish-list';
+import { WishTranslation } from '../components/wish-translation';
+import { WishSort } from '../components/wish-sort';
+import { LanguageContext } from '../context/language-context';
 import TranslateIcon from '../../public/translate.svg';
 import Image from 'next/image';
-
-export interface Wish {
-  id: string;
-  title: string;
-  value: number;
-  status: 'completed'|'removed'|'none',
-}
+import { Wish } from '../types/Wish';
 
 export default function Home() {
   const {dictionary} = useContext(LanguageContext);
@@ -156,7 +150,7 @@ export default function Home() {
 
 
       <div className='w-full flex-col items-start justify-between flex'>
-        <ul className="w-full min-h-[30vh]">
+        <ul className='w-full min-h-[30vh]'>
          { wishesIsLoading && <li className='bg-[#524A4E] mb-5 w-full flex justify-between items-center p-5 gap-5 md:gap-6'>
             <p className='text-white text-bold'>{dictionary.wishesLoading}</p>
           </li>}

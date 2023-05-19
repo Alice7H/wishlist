@@ -1,4 +1,4 @@
-import LanguageProvider from './context/language-provider'
+import LanguageProvider from '../context/language-provider'
 import './globals.css'
 import { Inter } from 'next/font/google'
 

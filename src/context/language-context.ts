@@ -1,6 +1,6 @@
 'use client'
-import { createContext } from "react";
-import { dictionaryList, languages } from "../languages";
+import { createContext } from 'react';
+import { dictionaryList, languages } from '../languages';
 
 export type DictionaryType = keyof typeof dictionaryList;
 
