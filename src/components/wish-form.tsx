@@ -1,6 +1,6 @@
-import { Dispatch, FormEvent, SetStateAction, useContext } from 'react';
+import { Dispatch, FormEvent, SetStateAction } from 'react';
 import { Wish } from '../types/Wish';
-import { LanguageContext } from '../context/language-context';
+import { useLanguageContext } from '@/hooks/useLanguageContext';
 
 interface IWishForm {
   wish: Wish;
@@ -9,7 +9,7 @@ interface IWishForm {
 }
 
 export function WishForm ({wish, setWish, onSubmit}: IWishForm) {
-  const {dictionary} = useContext(LanguageContext);
+  const {dictionary} = useLanguageContext();
 
   return (
     <form onSubmit={onSubmit}>
@@ -18,7 +18,7 @@ export function WishForm ({wish, setWish, onSubmit}: IWishForm) {
             <input type='text'
             id='title'
             name='title'
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
             placeholder={dictionary.placeholderTitle}
             required
             onChange={(event)=> setWish((prev) => ({ ...prev, title: event.target.value}))}

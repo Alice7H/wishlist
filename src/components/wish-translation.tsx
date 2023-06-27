@@ -1,9 +1,9 @@
-import { FormEvent, useContext } from 'react';
-import { LanguageContext } from '../context/language-context';
+import { FormEvent } from 'react';
+import { useLanguageContext } from '@/hooks/useLanguageContext';
 
 export function WishTranslation() {
 
-  const {language, dictionary, changeLanguage} = useContext(LanguageContext);
+  const {language, dictionary, changeLanguage} = useLanguageContext();
 
   const onChangeLanguage = (event: FormEvent<HTMLSelectElement>) => {
     event.preventDefault();

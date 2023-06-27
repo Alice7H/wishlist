@@ -1,32 +1,36 @@
 'use client'
 
-import {FormEvent, useContext, useEffect, useState} from 'react';
+import {FormEvent, useState} from 'react';
 import { WishForm } from '../components/wish-form';
-import { WishList } from '../components/wish-list';
 import { WishTranslation } from '../components/wish-translation';
+import { WishList } from '../components/wish-list';
 import { WishSort } from '../components/wish-sort';
-import { LanguageContext } from '../context/language-context';
 import TranslateIcon from '../../public/translate.svg';
 import Image from 'next/image';
 import { Wish } from '../types/Wish';
-import { useWishContext } from '@/hooks/useWishContext';
 import { ActionTypes } from '@/reducers/wishReducer';
+import { useWishContext } from '@/hooks/useWishContext';
+import { useLanguageContext } from '@/hooks/useLanguageContext';
+import { Dancing_Script } from 'next/font/google';
+
+const dancingScriptFont = Dancing_Script({
+  weight: '700',
+  subsets: ['latin'],
+})
 
 export default function Home() {
-  const {dictionary} = useContext(LanguageContext);
-  const { state, dispatch, wishesIsLoading } = useWishContext();
+  const {dictionary} = useLanguageContext();
+  const { state, dispatch } = useWishContext();
   const [wish, setWish] = useState<Wish>({id: '', title: '', value: 0, status: 'none' });
   const total = state.reduce((acc: number, task: Wish) => task.status == 'none' ? acc + task.value : acc + 0, 0);
 
   const handleRemoveAllWishes = () => {
     dispatch({type: ActionTypes.REMOVE_ALL_WISHES})
 }
-  const checkedRow = (wish: Wish) => dispatch({type: ActionTypes.CROSS_OUT_WISHES, payload: wish.id})
-  const onRemove = (wish: Wish) => dispatch({type: ActionTypes.REMOVE_WISHES, payload: wish.id})
   const onSortWishes = (value: string) => dispatch({type: ActionTypes.FILTER_WISHES, payload: value })
 
-  const onEdit = (wish: Wish) => {
-    const currentWish = state.find(t => t.id === wish.id) as Wish;
+  const onEdit = (id: string) => {
+    const currentWish = state.find(t => t.id === id) as Wish;
     setWish(currentWish);
   }
 
@@ -54,14 +58,19 @@ export default function Home() {
   }
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-6 md:p-24 md:pt-5 bg-[#393E46]'>
+    <main className='relative flex min-h-screen flex-col items-center justify-between p-6 md:p-24 md:pt-5 bg-wish'>
+      <div className='absolute sm:w-[150px] sm:h-[150px] md:w-[250px] md:h-[250px] bottom-0 left-[20vw] bg-pet bg-contain bg-no-repeat'></div>
+      <div className='relative w-full'>
+        <div className='opacity-[0.75] absolute -top-4 -left-[40px] sm:-left-[5vw] sm:w-[250px] sm:h-[250px] md:-top-8 bg-food bg-contain bg-no-repeat'></div>
+      </div>
+
       <div className='w-full sm:w-1/3 self-end mb-10 flex gap-2'>
-       <Image src={TranslateIcon} alt='Translation icon' width={32} height={32} />
+       <Image src={TranslateIcon} alt='Translation icon' width={32} height={32}/>
        <WishTranslation/>
       </div>
 
       <div className='items-center justify-between lg:flex'>
-        <h1 className='text-gray-300 text-xl mb-5 font-bold'>{dictionary.title}</h1>
+        <h1 className={dancingScriptFont.className + ' text-4xl mb-5 font-bold'}>{dictionary.title}</h1>
       </div>
 
       <div className='w-full flex flex-col'>
@@ -72,20 +81,9 @@ export default function Home() {
       </div>
 
       <div className='w-full flex-col items-start justify-between flex'>
-        <ul className='w-full min-h-[30vh]'>
-         { wishesIsLoading && <li className='bg-[#524A4E] mb-5 w-full flex justify-between items-center p-5 gap-5 md:gap-6'>
-            <p className='text-white text-bold'>{dictionary.wishesLoading}</p>
-          </li>}
-         { state.length > 0 && [...state].sort().map(item => item.status != 'removed' &&
-          <WishList key={item.id} wish={item} checkedRow={checkedRow} onRemove={onRemove} onEdit={onEdit}/>
-        )}
-        { !wishesIsLoading && state.length == 0 && <li className='bg-[#524A4E] mb-5 w-full flex justify-between items-center p-5 gap-5 md:gap-6'>
-            <p className='text-white text-bold'>{dictionary.emptyWishList}</p>
-          </li>
-        }
-        </ul>
+        <WishList onEdit={onEdit} />
         <div className='bg-gray-200 w-full sm:w-1/3 p-2 self-end'>
-          <p>Total: <span>R${total.toFixed(2)}</span></p>
+          <p>Total: <span>R${total?.toFixed(2)}</span></p>
         </div>
       </div>
 

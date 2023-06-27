@@ -62,7 +62,7 @@ export const wishReducer = (state: Wish[], action: IAction): Wish[] => {
       return [...state, {
         id: 'aX'+ state.length + 1,
         title: action.payload?.title || '',
-        value: action.payload?.value || '',
+        value: action.payload?.value || 0,
         status: 'none'
       }];
     case ActionTypes.REMOVE_WISHES:
@@ -75,8 +75,8 @@ export const wishReducer = (state: Wish[], action: IAction): Wish[] => {
       wish.id == action.payload?.id
         ? ({ ...wish,
           id: action.payload?.id,
-          title: action.payload?.title,
-          value: action.payload?.value,
+          title: action.payload?.title || '',
+          value: action.payload?.value || 0,
           status: 'none' })
         : (wish)
       )

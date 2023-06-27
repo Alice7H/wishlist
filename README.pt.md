@@ -1,5 +1,7 @@
 # Lista de Desejos
 
+![Banner](./public/banner.png)
+
 - [Inglês](README.md)
 - [Português](README.pt.md)
 - [Espanhol](README.es.md)

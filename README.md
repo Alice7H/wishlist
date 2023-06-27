@@ -1,5 +1,7 @@
 # Wishlist
 
+![Banner](./public/banner.png)
+
 - [English](README.md)
 - [Portuguese](README.pt.md)
 - [Spanish](README.es.md)

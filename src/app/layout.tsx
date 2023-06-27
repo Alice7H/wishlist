@@ -1,9 +1,9 @@
 import WishProvider from '../context/wish-context'
-import LanguageProvider from '../context/language-provider'
+import LanguageProvider from '../context/language-context'
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Inter} from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin']})
 
 export const metadata = {
   title: 'Wish list',

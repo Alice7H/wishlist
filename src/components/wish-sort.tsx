@@ -1,12 +1,11 @@
-import { useContext } from 'react';
-import { LanguageContext } from '../context/language-context';
+import { useLanguageContext } from '@/hooks/useLanguageContext';
 
 interface IWishSort {
   onSortWishes: (value: string) => void;
 };
 
 export function WishSort({ onSortWishes }: IWishSort){
-  const {dictionary} = useContext(LanguageContext);
+  const {dictionary} = useLanguageContext();
 
   const  defaultFilterValue = 'none';
   const filterOptions = [

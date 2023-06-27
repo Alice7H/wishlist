@@ -4,7 +4,6 @@ import { Dispatch, ReactNode, createContext, useEffect, useReducer, useState } f
 import { IAction, wishReducer } from '../reducers/wishReducer';
 import { Wish } from '@/types/Wish';
 
-
 interface InitialStateProps {
   state: Wish[],
   dispatch: Dispatch<IAction>;
@@ -33,6 +32,10 @@ export default function WishProvider ({children}: IWishProviderProps) {
     localStorage.setItem('wishes', JSON.stringify(state));
     setWishesIsLoading(false)
   }, [state]);
+
+  if(wishesIsLoading){
+    return <></>
+  }
 
   return (
     <WishContext.Provider value={{state, dispatch, wishesIsLoading}}>
