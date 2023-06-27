@@ -9,47 +9,25 @@ import { LanguageContext } from '../context/language-context';
 import TranslateIcon from '../../public/translate.svg';
 import Image from 'next/image';
 import { Wish } from '../types/Wish';
+import { useWishContext } from '@/hooks/useWishContext';
+import { ActionTypes } from '@/reducers/wishReducer';
 
 export default function Home() {
   const {dictionary} = useContext(LanguageContext);
-
-  const [wishes, setWishes] = useState<Wish[]>([]);
+  const { state, dispatch, wishesIsLoading } = useWishContext();
   const [wish, setWish] = useState<Wish>({id: '', title: '', value: 0, status: 'none' });
-  const [wishesIsLoading, setWishesIsLoading] = useState(true);
-  const total = wishes.reduce((acc, task) => task.status == 'none' ? acc + task.value : acc + 0, 0);
-
-  useEffect(()=> {
-    const localWishes = JSON.parse(localStorage.getItem('wishes') || '{}') as Wish[];
-    setWishes(localWishes);
-    setWishesIsLoading(false);
-  },[])
-
-  useEffect(()=> {
-    localStorage.setItem('wishes', JSON.stringify(wishes));
-  },[wishes])
+  const total = state.reduce((acc: number, task: Wish) => task.status == 'none' ? acc + task.value : acc + 0, 0);
 
   const handleRemoveAllWishes = () => {
-    localStorage.removeItem('wishes');
-    setWishes([]);
-  }
+    dispatch({type: ActionTypes.REMOVE_ALL_WISHES})
+}
+  const checkedRow = (wish: Wish) => dispatch({type: ActionTypes.CROSS_OUT_WISHES, payload: wish.id})
+  const onRemove = (wish: Wish) => dispatch({type: ActionTypes.REMOVE_WISHES, payload: wish.id})
+  const onSortWishes = (value: string) => dispatch({type: ActionTypes.FILTER_WISHES, payload: value })
 
-  const checkedRow = (id: string) => {
-    setWishes(wishes.map(
-      wish => {
-      if(wish.id === id && wish.status == 'none')
-        return({...wish, status: 'completed' })
-      else if(wish.id === id && wish.status == 'completed')
-        return({...wish, status: 'none' })
-      else
-        return(wish)
-      }
-    ));
-  }
-
-  const onRemove = (id: string) => {
-    setWishes(wishes.map(
-      wish => wish.id === id ? ({ ...wish, status: 'removed' }) : (wish)
-    ));
+  const onEdit = (wish: Wish) => {
+    const currentWish = state.find(t => t.id === wish.id) as Wish;
+    setWish(currentWish);
   }
 
   const isFormValid = () => {
@@ -60,74 +38,19 @@ export default function Home() {
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if(isFormValid()){
-      wish.id.length > 0 ? onUpdate() : onCreate();
+      wish.id.length > 0
+      ? dispatch({type: ActionTypes.UPDATE_WISHES, payload: wish })
+      : dispatch({type: ActionTypes.ADD_WISHES, payload: wish});
       resetForm(event);
     }else {
       alert(dictionary.errorFormMessage);
     }
   }
 
-  const onEdit = (id: string) => {
-    const currentWish = wishes.find(t => t.id === id);
-    if(currentWish) setWish(currentWish);
-  }
-
-  const onCreate = () => {
-    setWishes(prev => ([...prev, {
-      id: 'aX'+ prev.length.toString(),
-      title: wish.title,
-      value: wish.value,
-      status: 'none'
-    }]));
-  }
-
-  const onUpdate = () => {
-    setWishes(wishes.map( w => w.id == wish.id
-      ? ({ ...w,
-        id: wish.id,
-        title: wish.title,
-        value: wish.value,
-        status: 'none' })
-      : (w)
-    ))
-  }
-
   const resetForm = (event: FormEvent<HTMLFormElement>) => {
     const formElement = event.target as HTMLFormElement;
     formElement.reset();
     setWish({id: '', title: '', value: 0, status: 'none' });
-  }
-
-
-  // sorting wishes
-  const onSortWishes = (value: string) => {
-    let sortSelected = _sortByDefault();
-    if(value === 'value'){
-      sortSelected = _sortByValue();
-    }else if(value === 'title'){
-      sortSelected = _sortByTitle();
-    }
-    setWishes(sortSelected);
-  }
-
-  const _sortByValue = () => {
-    return [...wishes].sort((a,b)=> a.value - b.value);
-  }
-
-  const _sortByTitle = () => {
-    return [...wishes].sort((a,b)=> {
-      if (a.title < b.title) {return -1;}
-      if (a.title > b.title) { return 1; }
-      return 0;
-    });
-  }
-
-  const _sortByDefault = () => {
-    return [...wishes].sort((a,b)=> {
-      if (a.id < b.id) {return -1;}
-      if (a.id > b.id) { return 1; }
-      return 0;
-    });
   }
 
   return (
@@ -148,16 +71,15 @@ export default function Home() {
         <WishForm wish={wish} setWish={setWish} onSubmit={onSubmit} />
       </div>
 
-
       <div className='w-full flex-col items-start justify-between flex'>
         <ul className='w-full min-h-[30vh]'>
          { wishesIsLoading && <li className='bg-[#524A4E] mb-5 w-full flex justify-between items-center p-5 gap-5 md:gap-6'>
             <p className='text-white text-bold'>{dictionary.wishesLoading}</p>
           </li>}
-         { wishes.length > 0 && [...wishes].sort().map(item => item.status != 'removed' &&
+         { state.length > 0 && [...state].sort().map(item => item.status != 'removed' &&
           <WishList key={item.id} wish={item} checkedRow={checkedRow} onRemove={onRemove} onEdit={onEdit}/>
         )}
-        { !wishesIsLoading && wishes.length == 0 && <li className='bg-[#524A4E] mb-5 w-full flex justify-between items-center p-5 gap-5 md:gap-6'>
+        { !wishesIsLoading && state.length == 0 && <li className='bg-[#524A4E] mb-5 w-full flex justify-between items-center p-5 gap-5 md:gap-6'>
             <p className='text-white text-bold'>{dictionary.emptyWishList}</p>
           </li>
         }

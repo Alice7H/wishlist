@@ -2,5 +2,7 @@ export interface Wish {
   id: string;
   title: string;
   value: number;
-  status: 'completed'| 'removed'| 'none',
+  status: Status;
 }
+
+type Status = 'completed'| 'removed'| 'none';

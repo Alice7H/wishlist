@@ -8,9 +8,9 @@ import { LanguageContext } from '../context/language-context';
 
 interface IWishList {
   wish: Wish;
-  checkedRow: (id: string) => void;
-  onRemove: (id: string) => void;
-  onEdit: (id: string) => void;
+  checkedRow: (wish: Wish) => void;
+  onRemove: (wish: Wish) => void;
+  onEdit: (wish: Wish) => void;
 }
 
 export function WishList ({wish, checkedRow, onRemove, onEdit}: IWishList) {
@@ -20,14 +20,14 @@ export function WishList ({wish, checkedRow, onRemove, onEdit}: IWishList) {
     <p className={`text-gray-200 ${wish.status === 'completed' && 'text-[#00C1D4] line-through decoration-4 decoration-[#2D46B9]'} `}>{wish.title}</p>
     <p className={`text-gray-200 ${wish.status === 'completed' && 'text-[#00C1D4] line-through decoration-4 decoration-[#2D46B9]'} `}>R$ {wish.value.toFixed(2)}</p>
     <div className='flex flex-wrap max-w-[60px] sm:max-w-full sm:flex-nowrap gap-6'>
-      <button type="button" className="block w-full py-2 px-4 rounded" onClick={()=>checkedRow(wish.id)}>
+      <button type="button" className="block w-full py-2 px-4 rounded" onClick={()=>checkedRow(wish)}>
        <Image src={checkedIcon} alt='Checked icon' width={24} height={24} title={dictionary.titleCheck}/>
       </button>
-      <button type="button" className="block w-full py-2 px-4 rounded" onClick={()=> onEdit(wish.id)}
+      <button type="button" className="block w-full py-2 px-4 rounded" onClick={()=> onEdit(wish)}
       title={dictionary.titleEdit}>
        <Image src={editIcon} alt='Edit icon' width={24} height={24} />
       </button>
-      <button type="button" className="block w-full py-2 px-4 rounded" onClick={()=> onRemove(wish.id)}
+      <button type="button" className="block w-full py-2 px-4 rounded" onClick={()=> onRemove(wish)}
       title={dictionary.titleRemove}>
        <Image src={deleteIcon} alt='Trash icon' width={24} height={24} />
       </button>
