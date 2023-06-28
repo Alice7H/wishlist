@@ -10,7 +10,7 @@ This is a [Next.js](https://nextjs.org/) project created with [`create-next-app`
 
 It aims to list goods or services that a person wants.
 
-The total of desired products appears at the bottom of the page.
+The total of wished products appears at the bottom of the page.
 
 The list can be sorted by product/service name, price and by id.
 
