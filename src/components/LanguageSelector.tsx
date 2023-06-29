@@ -1,9 +1,8 @@
-import { FormEvent } from 'react';
 import { useLanguageContext } from '@/hooks/useLanguageContext';
+import { FormEvent } from 'react';
 
-export function WishTranslation() {
-
-  const {language, dictionary, changeLanguage} = useLanguageContext();
+export function LanguageSelector() {
+  const { dictionary, language, changeLanguage } = useLanguageContext();
 
   const onChangeLanguage = (event: FormEvent<HTMLSelectElement>) => {
     event.preventDefault();
@@ -12,7 +11,8 @@ export function WishTranslation() {
   }
 
   return (
-    <select id='languages' onChange={onChangeLanguage} className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+    <select id='languages' onChange={onChangeLanguage}
+    className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'>
       <option value={language}>{dictionary.selectLanguage}</option>
       <option value='en'>{dictionary.langEn }</option>
       <option value='pt'>{dictionary.langPt }</option>

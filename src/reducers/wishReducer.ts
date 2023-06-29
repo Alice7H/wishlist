@@ -1,13 +1,5 @@
 import { Wish } from "@/types/Wish";
-
-export enum ActionTypes {
-  ADD_WISHES =  'ADD_WISHES',
-  REMOVE_WISHES =  'REMOVE_WISHES',
-  UPDATE_WISHES =  'UPDATE_WISHES',
-  FILTER_WISHES = 'FILTER_WISHES',
-  CROSS_OUT_WISHES = 'CROSS_OUT_WISHES',
-  REMOVE_ALL_WISHES = 'REMOVE_ALL_WISHES',
-}
+import { ActionTypes } from "@/types/WishActions";
 
 export interface IAction {
   readonly type: ActionTypes;
@@ -31,8 +23,8 @@ export const wishReducer = (state: Wish[], action: IAction): Wish[] => {
 
   const _sortByTitle = () => {
     return [...state].sort((a,b)=> {
-      if (a.title < b.title) {return -1;}
-      if (a.title > b.title) { return 1; }
+      if (a.title.toLowerCase() < b.title.toLowerCase()) {return -1;}
+      if (a.title.toLowerCase() > b.title.toLowerCase()) { return 1; }
       return 0;
     });
   }
