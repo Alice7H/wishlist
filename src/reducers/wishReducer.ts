@@ -58,10 +58,7 @@ export const wishReducer = (state: Wish[], action: IAction): Wish[] => {
         status: 'none'
       }];
     case ActionTypes.REMOVE_WISHES:
-      return state.map((wish: Wish) => wish.id === action.payload
-        ? ({ ...wish, status: 'removed' })
-        : (wish)
-      )
+      return state.filter((wish: Wish) => wish.id !== action.payload)
     case ActionTypes.UPDATE_WISHES:
       return state.map((wish: Wish) =>
       wish.id == action.payload?.id

@@ -2,14 +2,15 @@
 import { FormEvent, useMemo, useState } from 'react';
 import { useLanguageContext } from '@/hooks/useLanguageContext';
 import { useWishDispatch } from '@/hooks/useWishContext';
-import { Wish } from '../types/Wish';
+import { Status, Wish } from '../types/Wish';
 
 interface IProps {
   wish: Wish;
 }
+const initialWishState = {id: '', title: '', value: 0, status: 'none' as Status }
 
 export function WishForm ({ wish }: IProps) {
-  const [ wishForm, setWishForm] = useState<Wish>({id: '', title: '', value: 0, status: 'none' });
+  const [ wishForm, setWishForm] = useState<Wish>(initialWishState);
   const { dictionary } = useLanguageContext();
   const { onCreate, onUpdate } = useWishDispatch();
 
@@ -23,7 +24,7 @@ export function WishForm ({ wish }: IProps) {
   const resetForm = (event: FormEvent<HTMLFormElement>) => {
     const formElement = event.target as HTMLFormElement;
     formElement.reset();
-    setWishForm({id: '', title: '', value: 0, status: 'none' });
+    setWishForm(initialWishState);
   }
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -50,7 +51,7 @@ export function WishForm ({ wish }: IProps) {
             placeholder={dictionary.placeholderTitle}
             required
             onChange={(event)=> setWishForm((prev) => ({ ...prev, title: event.target.value}))}
-            value={wishForm?.title}
+            value={wishForm.title}
             />
         </div>
         <div className='col-span-2 md:col-span-1'>
@@ -61,10 +62,12 @@ export function WishForm ({ wish }: IProps) {
             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
             placeholder='100,00'
             required
+            inputMode="decimal"
+            step="0.01"
             min='0'
             max='1000000'
             onChange={(event)=>setWishForm((prev) =>({...prev, value: parseFloat(event.target.value)}))}
-            value={wishForm?.value}
+            value={wishForm.value}
           />
         </div>
         <div className='col-span-2 md:col-span-1'>

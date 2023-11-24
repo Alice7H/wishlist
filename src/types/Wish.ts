@@ -5,4 +5,4 @@ export interface Wish {
   status: Status;
 }
 
-type Status = 'completed'| 'removed'| 'none';
+export type Status = 'completed' | 'none';

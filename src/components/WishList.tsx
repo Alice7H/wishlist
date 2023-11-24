@@ -28,7 +28,7 @@ export function WishList ({setWish}: IProps) {
     <>
       <ul className={gloriaHallelujahFont.className + ' w-full min-h-[30vh]'} >
         { state.length > 0
-          ? [...state].sort().map(item => item.status != 'removed' &&
+          ? [...state].sort().map(item =>
           <WishItems key={item.id} wish={item}
             onEdit={onEdit}
             onRemove={()=> onRemove(item)}
